@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,6 +13,9 @@ var (
 )
 
 func assertHTMLEqual(t *testing.T, exptected, actual string) {
+	exptected = strings.TrimSpace(exptected)
+	actual = strings.TrimSpace(actual)
+
 	if htmlSpaceRe.ReplaceAllString(exptected, "><") != htmlSpaceRe.ReplaceAllString(actual, "><") {
 		t.Errorf("\nexptected:\n%s\nactual   :\n%s", exptected, actual)
 	}

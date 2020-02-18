@@ -32,23 +32,28 @@ func (f ImageMaxWidthFilter) Call(doc *goquery.Document) (err error) {
 
 func main() {
 	pipe := pipeline.NewPipeline([]pipeline.Filter{
+		pipeline.MarkdownFilter{},
 		pipeline.SanitizationFilter{},
 		ImageMaxWidthFilter{},
 	})
 
-	html := `<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
+	markdown := `# Hello world
+
+	<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
 	out, _ := pipe.Call(html)
 	fmt.Println(out)
-	// <img src="https://google.com/foo.jpg" style="max-width: 100%"/>
+	// <h1>Hello world</h1>
+	// <p><img src="https://google.com/foo.jpg" style="max-width: 100%"/></p>
 }
 ```
 
-https://play.golang.org/p/teBIIhyFNug
+https://play.golang.org/p/RoyEXqx8gui
 
 ## Built-in filters
 
-- SanitizationFilter - Use bluemonday default UGCPolicy to sanitize html
-- SimpleFormatFilter - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
+- [SanitizationFilter](https://github.com/huacnlee/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
+- [MarkdownFilter](https://github.com/huacnlee/html-pipeline/blob/master/markdown_filter.go) - Use [blackfriday](https://github.com/russross/blackfriday) to covert Markdown to HTML.
+- [SimpleFormatFilter](https://github.com/huacnlee/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
 
 ## License
 
