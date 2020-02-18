@@ -1,4 +1,4 @@
-package html
+package pipeline
 
 import (
 	"strings"
@@ -17,8 +17,6 @@ func NewPipeline(filters []Filter) Pipeline {
 }
 
 func (p Pipeline) Call(html string) (out string, err error) {
-	out = html
-
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
 		return

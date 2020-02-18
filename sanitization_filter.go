@@ -1,4 +1,4 @@
-package html
+package pipeline
 
 import (
 	"github.com/PuerkitoBio/goquery"
@@ -7,19 +7,27 @@ import (
 
 // SanitizationFilter use bluemonday default UGCPolicy to sanitize html
 type SanitizationFilter struct {
-	Rule *bluemonday.Policy
+	Policy *bluemonday.Policy
 }
 
-func (f SanitizationFilter) Call(doc *goquery.Document) (err error) {
-	html, err := doc.Html()
-	if err != nil {
-		return
-	}
-	rule := f.Rule
+func (f SanitizationFilter) Type() string {
+	return "string"
+}
+
+func (f SanitizationFilter) PolicyWithDefault() *bluemonday.Policy {
+	rule := f.Policy
 	if rule == nil {
 		rule = bluemonday.UGCPolicy()
 	}
-	doc.ReplaceWithHtml(rule.Sanitize(html))
+	return rule
+}
 
+func (f SanitizationFilter) Call(doc *goquery.Document) (err error) {
+	html, err := doc.Find("body").Html()
+	if err != nil {
+		return
+	}
+
+	doc.Find("body").SetHtml(f.PolicyWithDefault().Sanitize(html))
 	return
 }

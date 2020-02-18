@@ -1,15 +1,8 @@
-package html
+package pipeline
 
-import (
-	"github.com/PuerkitoBio/goquery"
-)
+import "github.com/PuerkitoBio/goquery"
 
-// Filter for html content
+// Filter base filter interface
 type Filter interface {
 	Call(doc *goquery.Document) (err error)
-}
-
-// TextFilter for plain text
-type TextFilter interface {
-	Call(text *string) (err error)
 }
