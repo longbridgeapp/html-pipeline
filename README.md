@@ -13,8 +13,10 @@ This is go version of [html-pipeline](https://github.com/jch/html-pipeline)
 package main
 
 import (
-  "fmt"
-  "github.com/huacnlee/html-pipeline"
+	"fmt"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/huacnlee/html-pipeline"
 )
 
 // ImageMaxWidthFilter a custom filter example
@@ -22,24 +24,26 @@ type ImageMaxWidthFilter struct{}
 
 func (f ImageMaxWidthFilter) Call(doc *goquery.Document) (err error) {
 	doc.Find("img").Each(func(i int, node *goquery.Selection) {
-		node.SetAttr("style", "max-width: 100%")
+		node.SetAttr("style", `max-width: 100%`)
 	})
 
 	return
 }
 
 func main() {
-  pipe := pipeline.NewPipeline([]pipeline.Filter{
-    pipeline.SanitizationFilter{},
-    ImageMaxWidthFilter{},
-  })
+	pipe := pipeline.NewPipeline([]pipeline.Filter{
+		pipeline.SanitizationFilter{},
+		ImageMaxWidthFilter{},
+	})
 
-  html := `<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
-  out, _ := pipe.Call(html)
-  // <img src="https://google.com/foo.jpg" style="max-width: 100%"/>
+	html := `<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
+	out, _ := pipe.Call(html)
+	fmt.Println(out)
+	// <img src="https://google.com/foo.jpg" style="max-width: 100%"/>
 }
 ```
 
+https://play.golang.org/p/teBIIhyFNug
 
 ## Built-in filters
 
