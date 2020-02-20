@@ -34,16 +34,30 @@ func main() {
 	pipe := pipeline.NewPipeline([]pipeline.Filter{
 		pipeline.MarkdownFilter{},
 		pipeline.SanitizationFilter{},
+		pipeline.MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return fmt.Sprintf(`<a href="https://github.com/topic/%s">#%s</a>`, name, name)
+			},
+		},
+		pipeline.MentionFilter{
+			Format: func(name string) string {
+				return fmt.Sprintf(`<a href="https://github.com/%s">@%s</a>`, name, name)
+			},
+		},
 		ImageMaxWidthFilter{},
 	})
 
 	markdown := `# Hello world
 
-	<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
-	out, _ := pipe.Call(html)
+	<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>
+
+	This is #html-pipeline example, created by @huacnlee`
+	out, _ := pipe.Call(markdown)
 	fmt.Println(out)
 	// <h1>Hello world</h1>
 	// <p><img src="https://google.com/foo.jpg" style="max-width: 100%"/></p>
+	// <p>This is <a href="https://github.com/topic/html-pipeline">#html-pipeline</a>, created by <a href="https://github.com/huacnlee">@huacnlee</a></p>
 }
 ```
 
