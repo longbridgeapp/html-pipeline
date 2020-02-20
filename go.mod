@@ -10,6 +10,7 @@ require (
 	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/stretchr/testify v1.4.0
+	golang.org/x/net v0.0.0-20200202094626-16171245cfb2
 	gopkg.in/russross/blackfriday.v2 v2.0.0+incompatible
 	gotest.tools v2.2.0+incompatible
 )
