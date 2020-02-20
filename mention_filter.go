@@ -39,7 +39,13 @@ func (f MentionFilter) Call(doc *goquery.Document) (err error) {
 
 	names := []string{}
 
-	TraverseTextNodes(doc.First().Nodes[0], func(node *html.Node) {
+	rootNode := doc.Find("body")
+
+	TraverseTextNodes(rootNode.Nodes[0], func(node *html.Node) {
+		if !strings.Contains(node.Data, f.Prefix) {
+			return
+		}
+
 		_names := f.ExtractMentionNames(node.Data)
 		// Replace text to links html
 		for _, name := range _names {

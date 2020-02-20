@@ -45,7 +45,7 @@ func TraverseTextNodes(node *html.Node, fn func(*html.Node)) {
 	if node == nil {
 		return
 	}
-	if node.Type == html.TextNode {
+	if node.Type == html.TextNode || node.Type == html.RawNode {
 		fn(node)
 	}
 

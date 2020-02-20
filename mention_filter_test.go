@@ -62,6 +62,54 @@ func TestMentionFilterWithHTML(t *testing.T) {
 	assert.Equal(t, mentionfilter.ExtractMentionNames(text), matchedNames)
 }
 
+func TestMentionFilterTwice(t *testing.T) {
+	cases := [][]string{
+		[]string{
+			`This is #html-pipeline example, created by @huacnlee at 2020.`,
+			`This is <hashtag>#html-pipeline</hashtag> example, created by <mention>@huacnlee</mention> at 2020.`,
+		},
+		[]string{
+			`<p>This is <em>#html-pipeline</em> example, created by <strong>@huacnlee</strong> at 2020.</p>`,
+			`<p>This is <em><hashtag>#html-pipeline</hashtag></em> example, created by <strong><mention>@huacnlee</mention></strong> at 2020.</p>`,
+		},
+	}
+
+	hashTags := []string{}
+	mentionNames := []string{}
+
+	pipe := NewPipeline([]Filter{
+		MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return "<hashtag>#" + name + "</hashtag>"
+			},
+			NamesCallback: func(names []string) {
+				hashTags = names
+			},
+		},
+		MentionFilter{
+			Format: func(name string) string {
+				return "<mention>@" + name + "</mention>"
+			},
+			NamesCallback: func(names []string) {
+				mentionNames = names
+			},
+		},
+	})
+
+	for _, item := range cases {
+		text := item[0]
+		expected := item[1]
+
+		out, err := pipe.Call(text)
+		assert.NoError(t, err)
+		assert.Equal(t, []string{"html-pipeline"}, hashTags)
+		assert.Equal(t, []string{"huacnlee"}, mentionNames)
+		assert.Equal(t, expected, out)
+	}
+
+}
+
 func TestExtractMentionNames(t *testing.T) {
 	text := `@huacnlee This is a @test_huacn-lee of some cool @中文名称 features that @mi_asd be
 	@use-ful but @don't. look at this email@address.com. @bla! I like #nylas but I don't
