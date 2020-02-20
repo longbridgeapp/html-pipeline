@@ -16,7 +16,7 @@ import (
 	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/huacnlee/html-pipeline"
+	pipeline "github.com/huacnlee/html-pipeline"
 )
 
 // ImageMaxWidthFilter a custom filter example
@@ -34,6 +34,7 @@ func main() {
 	pipe := pipeline.NewPipeline([]pipeline.Filter{
 		pipeline.MarkdownFilter{},
 		pipeline.SanitizationFilter{},
+		ImageMaxWidthFilter{},
 		pipeline.MentionFilter{
 			Prefix: "#",
 			Format: func(name string) string {
@@ -41,27 +42,32 @@ func main() {
 			},
 		},
 		pipeline.MentionFilter{
+			Prefix: "@",
 			Format: func(name string) string {
 				return fmt.Sprintf(`<a href="https://github.com/%s">@%s</a>`, name, name)
 			},
 		},
-		ImageMaxWidthFilter{},
 	})
 
 	markdown := `# Hello world
 
-	<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>
+![](javascript:alert) [Click me](javascript:alert)
 
-	This is #html-pipeline example, created by @huacnlee`
+This is #html-pipeline example, @huacnlee created.`
 	out, _ := pipe.Call(markdown)
 	fmt.Println(out)
-	// <h1>Hello world</h1>
-	// <p><img src="https://google.com/foo.jpg" style="max-width: 100%"/></p>
-	// <p>This is <a href="https://github.com/topic/html-pipeline">#html-pipeline</a>, created by <a href="https://github.com/huacnlee">@huacnlee</a></p>
+
+	/*
+		<h1>Hello world</h1>
+
+		<p><img alt="" style="max-width: 100%"/> Click me</p>
+
+		<p>This is <a href="https://github.com/topic/html-pipeline">#html-pipeline</a> example, <a href="https://github.com/huacnlee">@huacnlee</a> created.</p>
+	*/
 }
 ```
 
-https://play.golang.org/p/RoyEXqx8gui
+https://play.golang.org/p/zB0T7KczdB4
 
 ## Built-in filters
 
