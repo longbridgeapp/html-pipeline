@@ -56,7 +56,6 @@ func (f MentionFilter) Call(doc *goquery.Document) (err error) {
 		names = append(names, _names...)
 	})
 
-	// TODO: 基于 Logins 查询出这些人，给这些人发送通知
 	if f.NamesCallback != nil {
 		f.NamesCallback(names)
 	}
