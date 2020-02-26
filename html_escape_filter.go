@@ -9,16 +9,17 @@ import (
 // HTMLEscapeFilter HTML escape for Plain text
 type HTMLEscapeFilter struct{}
 
+// Call HTMLEscapeFilter
 func (f HTMLEscapeFilter) Call(doc *goquery.Document) (err error) {
-	text, err := doc.Find("body").Html()
+	html, err := doc.Find("body").Html()
 	if err != nil {
 		return err
 	}
 
-	text = strings.ReplaceAll(text, ">", "&gt;")
-	text = strings.ReplaceAll(text, "<", "&lt;")
+	html = strings.ReplaceAll(html, ">", "&gt;")
+	html = strings.ReplaceAll(html, "<", "&lt;")
 
-	doc.Find("body").SetHtml(text)
+	doc.Find("body").SetHtml(html)
 
 	return
 }
