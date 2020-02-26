@@ -38,3 +38,27 @@ func TestNewPipeline(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "<p>Hello world</p>", out)
 }
+
+func BenchmarkMultiplePiplelines(b *testing.B) {
+	raw := `#huacnlee This is a #test_huacn-lee of some cool #中文名称 features that #mi_asd be
+	#use-ful but #don't. look at this email#address.com. #bla! I like #nylas but I don't
+	like to go to this apple.com?a#url. I also don't like the comment blocks.
+	But #msft is cool. #huacnlee This is a #test_huacn-lee of some cool #中文名称 features that #mi_asd be
+	#use-ful but #don't. look at this email#address.com. #bla! I like #nylas but I don't
+	like to go to this apple.com?a#url. I also don't like the comment blocks.
+	But #msft is cool. #huacnlee This is a #test_huacn-lee of some cool #中文名称 features that #mi_asd be
+	#use-ful but #don't. look at this email#address.com. #bla! I like #nylas but I don't
+	like to go to this apple.com?a#url. I also don't like the comment blocks.
+	But #msft is cool.`
+
+	pipe := NewPipeline([]Filter{
+		HTMLEscapeFilter{},
+		SimpleFormatFilter{},
+		MentionFilter{},
+	})
+
+	for i := 0; i < b.N; i++ {
+		// 41251 ns/op
+		pipe.Call(raw)
+	}
+}

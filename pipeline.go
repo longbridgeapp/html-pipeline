@@ -4,9 +4,9 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"golang.org/x/net/html"
 )
 
+// Pipeline stuct
 type Pipeline struct {
 	Filters []Filter
 }
@@ -38,22 +38,4 @@ func (p Pipeline) Call(html string) (out string, err error) {
 	}
 
 	return
-}
-
-// TraverseTextNodes map nested node to find all text node
-func TraverseTextNodes(node *html.Node, fn func(*html.Node)) {
-	if node == nil {
-		return
-	}
-	if node.Type == html.TextNode || node.Type == html.RawNode {
-		fn(node)
-	}
-
-	cur := node.FirstChild
-
-	for cur != nil {
-		next := cur.NextSibling
-		TraverseTextNodes(cur, fn)
-		cur = next
-	}
 }
