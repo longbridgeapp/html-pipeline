@@ -1,12 +1,12 @@
 package pipeline
 
 import (
-	"testing"
+	"fmt"
 
 	"github.com/russross/blackfriday"
 )
 
-func TestMarkdownFilter(t *testing.T) {
+func ExampleMarkdownFilter() {
 	pipe := NewPipeline([]Filter{
 		MarkdownFilter{
 			Opts: []blackfriday.Option{
@@ -22,13 +22,13 @@ func TestMarkdownFilter(t *testing.T) {
 
 This is [html-pipeline](https://github.com/huacnlee/html-pipeline) Markdown filter.`
 
-	out := `<h1 id="hello-world">Hello world</h1>
-
-<p>alert;
-body {}</p>
-
-<p>This is <a href="https://github.com/huacnlee/html-pipeline" rel="nofollow">html-pipeline</a> Markdown filter.</p>
-`
-
-	assertCall(t, pipe, out, raw)
+	out, _ := pipe.Call(raw)
+	fmt.Println(out)
+	// Output:
+	// <h1 id="hello-world">Hello world</h1>
+	//
+	// <p>alert;
+	// body {}</p>
+	//
+	// <p>This is <a href="https://github.com/huacnlee/html-pipeline" rel="nofollow">html-pipeline</a> Markdown filter.</p>
 }

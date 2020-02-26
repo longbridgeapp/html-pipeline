@@ -1,7 +1,7 @@
 package pipeline
 
 import (
-	"testing"
+	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -16,7 +16,18 @@ func (f TestFilter) Call(doc *goquery.Document) (err error) {
 	return
 }
 
-func TestCustomFilter(t *testing.T) {
+func ExamplePipeline_customFilter() {
+	/*
+		type TestFilter struct{}
+
+		func (f TestFilter) Call(doc *goquery.Document) (err error) {
+			doc.Find("img").Each(func(i int, node *goquery.Selection) {
+				node.SetAttr("style", "max-width: 100%")
+			})
+
+			return
+		}
+	*/
 	pipe := NewPipeline([]Filter{
 		SanitizationFilter{},
 		TestFilter{},
@@ -24,5 +35,8 @@ func TestCustomFilter(t *testing.T) {
 
 	html := `<img onclick="javascript:alert" src="https://google.com/foo.jpg"/>`
 
-	assertCall(t, pipe, `<img src="https://google.com/foo.jpg" style="max-width: 100%"/>`, html)
+	out, _ := pipe.Call(html)
+	fmt.Println(out)
+	// Output:
+	// <img src="https://google.com/foo.jpg" style="max-width: 100%"/>
 }

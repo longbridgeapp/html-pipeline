@@ -24,7 +24,7 @@ func (f SimpleFormatFilter) Call(doc *goquery.Document) (err error) {
 
 	outs := []string{}
 	for _, paragraph := range f.splitParagraphs(html) {
-		paragraph = strings.ReplaceAll(paragraph, "\n", "\n<br />")
+		paragraph = strings.ReplaceAll(paragraph, "\n", "<br/>")
 		outs = append(outs, "<p>"+paragraph+"</p>")
 	}
 	html = strings.Join(outs, "")

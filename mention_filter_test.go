@@ -7,6 +7,58 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func ExampleMentionFilter() {
+	text := `This is a @test_huacn-lee of some cool @中文名称 features that @mi_asd be
+@use-ful but @don't. look at this email@address.com. @bla! I like #nylas but I don't
+like to go to this apple.com?a#url. I also don't like the ### comment blocks.
+But #msft is cool.`
+
+	pipe := NewPipeline([]Filter{
+		MentionFilter{
+			Format: func(name string) string {
+				return fmt.Sprintf(`<mention>%s</mention>`, name)
+			},
+		},
+	})
+
+	out, _ := pipe.Call(text)
+	fmt.Println(out)
+	// Output:
+	// This is a <mention>test_huacn-lee</mention> of some cool <mention>中文名称</mention> features that <mention>mi_asd</mention> be
+	// <mention>use-ful</mention> but <mention>don</mention>'t. look at this email@address.com. <mention>bla</mention>! I like #nylas but I don't
+	// like to go to this apple.com?a#url. I also don't like the ### comment blocks.
+	// But #msft is cool.
+}
+
+func ExampleMentionFilter_complex() {
+	text := `This is a @test_huacn-lee of some cool @中文名称 features that @mi_asd be
+@use-ful but @don't. look at this email@address.com. @bla! I like #nylas but I don't
+like to go to this apple.com?a#url. I also don't like the ### comment blocks.
+But #msft is cool.`
+
+	pipe := NewPipeline([]Filter{
+		MentionFilter{
+			Format: func(name string) string {
+				return fmt.Sprintf(`<mention>@%s</mention>`, name)
+			},
+		},
+		MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return fmt.Sprintf(`<hashtag>#%s</hashtag>`, name)
+			},
+		},
+	})
+
+	out, _ := pipe.Call(text)
+	fmt.Println(out)
+	// Output:
+	// This is a <mention>@test_huacn-lee</mention> of some cool <mention>@中文名称</mention> features that <mention>@mi_asd</mention> be
+	// <mention>@use-ful</mention> but <mention>@don</mention>'t. look at this email@address.com. <mention>@bla</mention>! I like <hashtag>#nylas</hashtag> but I don't
+	// like to go to this apple.com?a#url. I also don't like the ### comment blocks.
+	// But <hashtag>#msft</hashtag> is cool.
+}
+
 func TestMentionFilterWithPlainText(t *testing.T) {
 	text := `This is a @test_huacn-lee of some cool @中文名称 features that @mi_asd be
 	@use-ful but @don't. look at this email@address.com. @bla! I like #nylas but I don't
@@ -110,18 +162,17 @@ func TestMentionFilterTwice(t *testing.T) {
 
 }
 
-func TestExtractMentionNames(t *testing.T) {
+func ExampleMentionFilter_ExtractMentionNames() {
 	text := `@huacnlee This is a @test_huacn-lee of some cool @中文名称 features that @mi_asd be
 	@use-ful but @don't. look at this email@address.com. @bla! I like #nylas but I don't
 	like to go to this apple.com?a#url. I also don't like the ### comment blocks.
 	But #msft is cool.`
 
-	expectedNames := []string{"huacnlee", "test_huacn-lee", "中文名称", "mi_asd", "use-ful", "don", "bla"}
-
 	mentionFilter := MentionFilter{}
 
 	names := mentionFilter.ExtractMentionNames(text)
-	assert.Equal(t, expectedNames, names)
+	fmt.Println(names)
+	// Output: [huacnlee test_huacn-lee 中文名称 mi_asd use-ful don bla]
 }
 
 func TestExtractMentionNamesWithHashTag(t *testing.T) {

@@ -1,6 +1,7 @@
 package pipeline
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 	"testing"
@@ -61,4 +62,37 @@ func BenchmarkMultiplePiplelines(b *testing.B) {
 		// 41251 ns/op
 		pipe.Call(raw)
 	}
+}
+
+func ExamplePipeline() {
+	pipe := NewPipeline([]Filter{
+		MarkdownFilter{},
+		SanitizationFilter{},
+		MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return fmt.Sprintf(`<a href="https://github.com/topic/%s">#%s</a>`, name, name)
+			},
+		},
+		MentionFilter{
+			Prefix: "@",
+			Format: func(name string) string {
+				return fmt.Sprintf(`<a href="https://github.com/%s">@%s</a>`, name, name)
+			},
+		},
+	})
+
+	markdown := `# Hello world
+
+![](javascript:alert) [Click me](javascript:alert)
+
+This is #html-pipeline example, @huacnlee created.`
+	out, _ := pipe.Call(markdown)
+	fmt.Printf(out)
+	// Output:
+	// <h1>Hello world</h1>
+	//
+	// <p><img alt=""/> Click me</p>
+	//
+	// <p>This is <a href="https://github.com/topic/html-pipeline">#html-pipeline</a> example, <a href="https://github.com/huacnlee">@huacnlee</a> created.</p>
 }
