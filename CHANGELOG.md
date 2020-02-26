@@ -1,3 +1,8 @@
+0.3.0
+-----
+
+- Add AutoCorrectFilter;
+
 0.2.2
 -----
 
