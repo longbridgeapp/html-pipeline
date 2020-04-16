@@ -96,3 +96,10 @@ This is #html-pipeline example, @huacnlee created.`
 	//
 	// <p>This is <a href="https://github.com/topic/html-pipeline">#html-pipeline</a> example, <a href="https://github.com/huacnlee">@huacnlee</a> created.</p>
 }
+
+func TestHTMLUnescape(t *testing.T) {
+	raw := "We don't like 'escape' and 'unescape'."
+	pipe := NewPipeline([]Filter{})
+	out, _ := pipe.Call(raw)
+	assert.Equal(t, raw, out)
+}

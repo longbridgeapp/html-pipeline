@@ -3,6 +3,8 @@ package pipeline
 import (
 	"strings"
 
+	pkg_html "html"
+
 	"github.com/PuerkitoBio/goquery"
 )
 
@@ -25,7 +27,14 @@ func (p Pipeline) Call(html string) (out string, err error) {
 		return
 	}
 
+	var hasEscapeFilter = false
+
 	for _, filter := range p.Filters {
+		switch filter.(type) {
+		case HTMLEscapeFilter:
+			hasEscapeFilter = true
+		}
+
 		err = filter.Call(doc)
 		if err != nil {
 			return
@@ -35,6 +44,10 @@ func (p Pipeline) Call(html string) (out string, err error) {
 	out, err = doc.Find("body").Html()
 	if err != nil {
 		return
+	}
+
+	if !hasEscapeFilter {
+		out = pkg_html.UnescapeString(out)
 	}
 
 	return

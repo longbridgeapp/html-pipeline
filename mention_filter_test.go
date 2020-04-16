@@ -92,7 +92,7 @@ func TestMentionFilterWithHTML(t *testing.T) {
 	expected := `<p>This is a <a href="https://twitter.com/test_huacn-lee">@test_huacn-lee</a> of some cool <a href="https://twitter.com/中文名称">@中文名称</a> features.</p>
 	<p>that <span><a href="https://twitter.com/mi_asd">@mi_asd</a></span> <strong><a href="https://twitter.com/use-ful">@use-ful</a> but <a href="https://twitter.com/don">@don</a>'t. look</strong> at this email@address.com. </p>
 	<p><a href="https://twitter.com/bla">@bla</a>! I like #nylas but I don't like to go to this apple.com?a#url.</p>
-	<p>I also don&#39;t like the ### comment blocks. But #msft is cool.</p>`
+	<p>I also don't like the ### comment blocks. But #msft is cool.</p>`
 
 	matchedNames := []string{}
 	mentionfilter := MentionFilter{
