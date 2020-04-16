@@ -1,3 +1,8 @@
+0.3.1
+-----
+
+- Fix filter result without escape string.
+
 0.3.0
 -----
 
