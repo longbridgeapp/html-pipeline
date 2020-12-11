@@ -102,4 +102,8 @@ func TestHTMLUnescape(t *testing.T) {
 	pipe := NewPipeline([]Filter{})
 	out, _ := pipe.Call(raw)
 	assert.Equal(t, raw, out)
+
+	raw = "<object props=\"{&quot;url&quot;: &quot;https://example.com/a.jpg&quot;}\">We don't like 'escape'</object>"
+	out, _ = pipe.Call(raw)
+	assert.Equal(t, `<object props="{&#34;url&#34;: &#34;https://example.com/a.jpg&#34;}">We don't like 'escape'</object>`, out)
 }

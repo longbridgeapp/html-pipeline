@@ -16,7 +16,10 @@ func (f AutoCorrectFilter) Call(doc *goquery.Document) (err error) {
 		return err
 	}
 
-	html = autocorrect.Format(html)
+	html, err = autocorrect.FormatHTML(html)
+	if err != nil {
+		return err
+	}
 
 	doc.Find("body").SetHtml(html)
 

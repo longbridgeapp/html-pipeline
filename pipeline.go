@@ -3,8 +3,6 @@ package pipeline
 import (
 	"strings"
 
-	pkg_html "html"
-
 	"github.com/PuerkitoBio/goquery"
 )
 
@@ -47,8 +45,12 @@ func (p Pipeline) Call(html string) (out string, err error) {
 	}
 
 	if !hasEscapeFilter {
-		out = pkg_html.UnescapeString(out)
+		out = unescapeSingleQuote(out)
 	}
 
 	return
+}
+
+func unescapeSingleQuote(in string) (out string) {
+	return strings.ReplaceAll(in, "&#39;", "'")
 }
