@@ -69,6 +69,54 @@ This is #html-pipeline example, @huacnlee created.`
 
 https://play.golang.org/p/zB0T7KczdB4
 
+## Use for Plain Text case
+
+Sometimes, you may want use html-pipeline to manage the Plain Text process.
+
+For example:
+
+- Match mentions, and then send notifications.
+- Convert Mention / HashTag or other text into other format.
+
+But in HTML mode, it will escape some chars (`"`, `'`, `&`) ... We don't wants that.
+
+So, there have `NewPlainPipeline` method for you to create a plain mode pipeline without any escape.
+
+> NOTE: For secruity, this pipeline will remove all HTML tags `<.+?>`
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/huacnlee/html-pipeline"
+)
+
+func main() {
+	pipe := pipeline.NewPlainPipeline([]pipeline.Filter{
+		pipeline.MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return fmt.Sprintf(`[hashtag name="%s"]%s[/hashtag]`, name, name)
+			},
+		},
+		pipeline.MentionFilter{
+			Prefix: "@",
+			Format: func(name string) string {
+				return fmt.Sprintf(`[mention name="%s"]@%s[/mention]`, name, name)
+			},
+		},
+	})
+
+	text := `"Hello" & 'world' this <script>danger</script> is #html-pipeline created by @huacnlee.`
+	out, _ := pipe.Call(text)
+	fmt.Println(out)
+	// "Hello" & 'world' this danger is [hashtag name="html-pipeline"]html-pipeline[/hashtag] created by [mention name="huacnlee"]@huacnlee[/mention].
+}
+```
+
+https://play.golang.org/p/vxKZU9jJi3u
+
 ## Built-in filters
 
 - [SanitizationFilter](https://github.com/huacnlee/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
