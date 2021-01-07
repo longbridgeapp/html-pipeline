@@ -111,27 +111,36 @@ func TestHTMLUnescape(t *testing.T) {
 func TestRenderPlainText(t *testing.T) {
 	raw := `
 	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] @huacnlee with 'code',
-	<mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	<script>alert()</script> <mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	https://www.google.com/search?newwindow=1&sxsrf=ALeKk01IaJz5BXWn2_C3_AFY3m_NL0c0pQ%3A1609989927324&ei=J3_2X76rE66zmAWLxIfoCg&q=Complex+url+%E4%B8%AD%E6%96%87&oq=Complex+url+%E4%B8%AD%E6%96%87&gs_lcp=CgZwc3ktYWIQAzoFCAAQywE6BAgAEB46BggAEAUQHjoGCAAQCBAeOgUIIRCgAVDJO1jORGDyRWgAcAB4AoAB_AGIAeQNkgEFMC4zLjaYAQCgAQGqAQdnd3Mtd2l6wAEB&sclient=psy-ab&ved=0ahUKEwj-2tbt74juAhWuGaYKHQviAa0Q4dUDCA0&uact=5
 	`
 
 	expected := `
-	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] [mention]@huacnlee[/mention] with 'code',
-	<mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] [mt value="huacnlee"]@huacnlee[/mt] with 'code',
+	alert() HTML mark will not remove recenty pressed "News".
+	https://www.google.com/search?newwindow=1&sxsrf=ALeKk01IaJz5BXWn2_C3_AFY3m_NL0c0pQ%3A1609989927324&ei=J3_2X76rE66zmAWLxIfoCg&q=Complex+url+%E4%B8%AD%E6%96%87&oq=Complex+url+%E4%B8%AD%E6%96%87&gs_lcp=CgZwc3ktYWIQAzoFCAAQywE6BAgAEB46BggAEAUQHjoGCAAQCBAeOgUIIRCgAVDJO1jORGDyRWgAcAB4AoAB_AGIAeQNkgEFMC4zLjaYAQCgAQGqAQdnd3Mtd2l6wAEB&sclient=psy-ab&ved=0ahUKEwj-2tbt74juAhWuGaYKHQviAa0Q4dUDCA0&uact=5
 	`
 
+	// With HTMLEscapeFilter (will ignore)
 	pipe := NewPlainPipeline([]Filter{
+		HTMLEscapeFilter{},
 		MentionFilter{
 			Format: func(name string) string {
-				return fmt.Sprintf(`[mention]@%s[/mention]`, name)
-			},
-		},
-		MentionFilter{
-			Prefix: "#",
-			Format: func(name string) string {
-				return fmt.Sprintf(`[hashtag]#%s[/hashtag]`, name)
+				return fmt.Sprintf(`[mt value="%s"]@%s[/mt]`, name, name)
 			},
 		},
 	})
 	out, _ := pipe.Call(raw)
+	assert.Equal(t, strings.TrimSpace(expected), out)
+
+	// Without HTMLEscapeFilter
+	pipe = NewPlainPipeline([]Filter{
+		MentionFilter{
+			Format: func(name string) string {
+				return fmt.Sprintf(`[mt value="%s"]@%s[/mt]`, name, name)
+			},
+		},
+	})
+	out, _ = pipe.Call(raw)
 	assert.Equal(t, strings.TrimSpace(expected), out)
 }
