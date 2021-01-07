@@ -107,3 +107,31 @@ func TestHTMLUnescape(t *testing.T) {
 	out, _ = pipe.Call(raw)
 	assert.Equal(t, `<object props="{&#34;url&#34;: &#34;https://example.com/a.jpg&#34;}">We don't like 'escape'</object>`, out)
 }
+
+func TestRenderPlainText(t *testing.T) {
+	raw := `
+	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] @huacnlee with 'code',
+	<mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	`
+
+	expected := `
+	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] [mention]@huacnlee[/mention] with 'code',
+	<mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	`
+
+	pipe := NewPlainPipeline([]Filter{
+		MentionFilter{
+			Format: func(name string) string {
+				return fmt.Sprintf(`[mention]@%s[/mention]`, name)
+			},
+		},
+		MentionFilter{
+			Prefix: "#",
+			Format: func(name string) string {
+				return fmt.Sprintf(`[hashtag]#%s[/hashtag]`, name)
+			},
+		},
+	})
+	out, _ := pipe.Call(raw)
+	assert.Equal(t, strings.TrimSpace(expected), out)
+}
