@@ -111,13 +111,13 @@ func TestHTMLUnescape(t *testing.T) {
 func TestRenderPlainText(t *testing.T) {
 	raw := `
 	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] @huacnlee with 'code',
-	<script>alert()</script> <mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
+	<script>alert()</script> &lt;style&gt;style tag&lt;/style&gt; <mark value="Bar">HTML mark will not remove</mark> recenty pressed "News".
 	https://www.google.com/search?newwindow=1&sxsrf=ALeKk01IaJz5BXWn2_C3_AFY3m_NL0c0pQ%3A1609989927324&ei=J3_2X76rE66zmAWLxIfoCg&q=Complex+url+%E4%B8%AD%E6%96%87&oq=Complex+url+%E4%B8%AD%E6%96%87&gs_lcp=CgZwc3ktYWIQAzoFCAAQywE6BAgAEB46BggAEAUQHjoGCAAQCBAeOgUIIRCgAVDJO1jORGDyRWgAcAB4AoAB_AGIAeQNkgEFMC4zLjaYAQCgAQGqAQdnd3Mtd2l6wAEB&sclient=psy-ab&ved=0ahUKEwj-2tbt74juAhWuGaYKHQviAa0Q4dUDCA0&uact=5
 	`
 
 	expected := `
 	[tag value="qcc"]Foo#QuantumScape & Corporation Class A[/tag] [mt value="huacnlee"]@huacnlee[/mt] with 'code',
-	alert() HTML mark will not remove recenty pressed "News".
+	alert() style tag HTML mark will not remove recenty pressed "News".
 	https://www.google.com/search?newwindow=1&sxsrf=ALeKk01IaJz5BXWn2_C3_AFY3m_NL0c0pQ%3A1609989927324&ei=J3_2X76rE66zmAWLxIfoCg&q=Complex+url+%E4%B8%AD%E6%96%87&oq=Complex+url+%E4%B8%AD%E6%96%87&gs_lcp=CgZwc3ktYWIQAzoFCAAQywE6BAgAEB46BggAEAUQHjoGCAAQCBAeOgUIIRCgAVDJO1jORGDyRWgAcAB4AoAB_AGIAeQNkgEFMC4zLjaYAQCgAQGqAQdnd3Mtd2l6wAEB&sclient=psy-ab&ved=0ahUKEwj-2tbt74juAhWuGaYKHQviAa0Q4dUDCA0&uact=5
 	`
 

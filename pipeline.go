@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"bytes"
+	"regexp"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -16,6 +17,10 @@ const (
 	modeHTML mode = iota
 	// ModePlain use Plain text output
 	modePlain
+)
+
+var (
+	stripHTMLTagRe = regexp.MustCompile(`<.+?>`)
 )
 
 // Pipeline stuct
@@ -42,6 +47,15 @@ func NewPlainPipeline(filters []Filter) Pipeline {
 
 // Call to Render with Pipleline
 func (p Pipeline) Call(raw string) (out string, err error) {
+	if p.mode == modeHTML {
+		return p.callWithHTML(raw)
+	} else {
+		return p.callWithPlain(raw)
+	}
+}
+
+// Call to Render with Pipleline
+func (p Pipeline) callWithHTML(raw string) (out string, err error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(raw))
 	if err != nil {
 		return
@@ -53,10 +67,6 @@ func (p Pipeline) Call(raw string) (out string, err error) {
 		switch filter.(type) {
 		case HTMLEscapeFilter:
 			hasEscapeFilter = true
-			// Skip HTMLEscapeFilter in plain mode
-			if p.mode == modePlain {
-				continue
-			}
 		}
 
 		err = filter.Call(doc)
@@ -65,20 +75,44 @@ func (p Pipeline) Call(raw string) (out string, err error) {
 		}
 	}
 
-	if p.mode == modeHTML {
-		out, err = doc.Find("body").Html()
+	out, err = doc.Find("body").Html()
+	if err != nil {
+		return
+	}
+
+	if !hasEscapeFilter {
+		out = unescapeSingleQuote(out)
+	}
+
+	return
+}
+
+// CacallWithPlain render plain text
+func (p Pipeline) callWithPlain(raw string) (out string, err error) {
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(raw))
+	if err != nil {
+		return
+	}
+
+	for _, filter := range p.Filters {
+		switch filter.(type) {
+		case HTMLEscapeFilter:
+			continue
+		}
+
+		err = filter.Call(doc)
 		if err != nil {
 			return
 		}
-
-		if !hasEscapeFilter {
-			out = unescapeSingleQuote(out)
-		}
-	} else {
-		out = getRawHTML(doc.Find("body"))
-		out = strings.TrimSpace(out)
 	}
 
+	out = getRawHTML(doc.Find("body"))
+
+	// Ensure to remove HTML Tag for avoid XSS
+	// Because Plain mode has limited not supports any HTML Tag, so here we can make sure to remove all of them.
+	out = stripHTMLTagRe.ReplaceAllString(out, "")
+
+	out = strings.TrimSpace(out)
 	return
 }
 
@@ -88,6 +122,7 @@ func unescapeSingleQuote(in string) (out string) {
 
 // Text gets the combined text contents of each element in the set of matched
 // elements, including their descendants.
+// https://github.com/PuerkitoBio/goquery/blob/v1.6.0/property.go#L62
 func getRawHTML(s *goquery.Selection) string {
 	var buf bytes.Buffer
 
