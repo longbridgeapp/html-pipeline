@@ -1,3 +1,7 @@
+## 0.4.1
+
+- Fix PlainPipeline to use text output for avoid html in plain.
+
 ## 0.4.0
 
 - Add `NewPlainPipeline` for render plain text mode.
