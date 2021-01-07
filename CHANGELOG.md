@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Add `NewPlainPipeline` for render plain text mode.
+
 ## 0.3.2
 
 - Fix output unescape will break html attribute value error.
