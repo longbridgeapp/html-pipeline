@@ -1,3 +1,7 @@
+## 0.4.2
+
+- Ensure to remove HTML Tag for avoid XSS in plain mode.
+
 ## 0.4.1
 
 - Fix PlainPipeline to use text output for avoid html in plain.
