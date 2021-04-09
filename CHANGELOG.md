@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Add [ImageProxyFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_proxy_filter.go) for match and replace `img` src.
+
 ## 0.4.2
 
 - Ensure to remove HTML Tag for avoid XSS in plain mode.
