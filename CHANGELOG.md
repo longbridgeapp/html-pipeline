@@ -1,3 +1,8 @@
+## master
+
+- Add [ImageURLFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_url_filter.go) match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
+- Deprecated **ImageProxyFilter**, please use ImageURLFilter.
+
 ## 0.5.0
 
 - Add [ImageProxyFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_proxy_filter.go) for match and replace `img` src.

@@ -7,7 +7,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// ImageProxyFilter replace img src for use image proxy
+// ImageProxyFilter DEPRECATED, use ImageURLFilter replace img src for use image proxy
 type ImageProxyFilter struct {
 	// IgnoreHosts, Host list that will ignore, ["your-host.com", "your-assets.com"]
 	IgnoreHosts []string
