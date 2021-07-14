@@ -59,6 +59,8 @@ func Test_ImageURLFilter(t *testing.T) {
 	<p>Hello <img src="https://localhost:3000/test/image.jpg"/></p>
 	<p>Hello <img src="https://file.github.com/test/image.jpg"/></p>
 	<p>Hello <img src="https://f.google.com/test/image.jpg"/></p>
+	<p>Hello <img data-src="https://f.google.com/test/image.jpg"/></p>
+	<p>Hello <img src="/foo/bar.jpg" data-src="https://f.google.com/test/image.jpg"/></p>
 	`
 
 	expected := `
@@ -72,6 +74,8 @@ func Test_ImageURLFilter(t *testing.T) {
 	<p>Hello <img src="https://localhost:3000/test/image.jpg"/></p>
 	<p>Hello <img src="https://imageproxy.ruby-china.com/https://file.github.com/test/image.jpg"/></p>
 	<p>Hello <img src="https://imageproxy.ruby-china.com/https://f.google.com/test/image.jpg"/></p>
+	<p>Hello <img data-src="https://f.google.com/test/image.jpg"/></p>
+	<p>Hello <img src="/foo/bar.jpg" data-src="https://f.google.com/test/image.jpg"/></p>
 	`
 
 	out, err := pipe.Call(html)

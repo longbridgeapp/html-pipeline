@@ -22,8 +22,23 @@ type ImageURLFilter struct {
 func (f ImageURLFilter) Call(doc *goquery.Document) (err error) {
 	doc.Find("img").Each(func(i int, node *goquery.Selection) {
 		src := node.AttrOr("src", "")
+		if src == "" {
+			// skip empty src
+			return
+		}
+
 		// Fix src that not URL Schema
-		srcURL, _ := url.Parse(src)
+		srcURL, err := url.Parse(src)
+		// ignore invaild src
+		if err != nil {
+			return
+		}
+
+		if srcURL.Host == "" {
+			// skip relative url
+			return
+		}
+
 		if srcURL.Scheme == "" {
 			srcURL.Scheme = "https"
 			src = srcURL.String()
