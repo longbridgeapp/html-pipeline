@@ -1,5 +1,8 @@
 # HTML Pipeline for Go
 
+
+[![Go](https://github.com/longbridgeapp/html-pipeline/actions/workflows/go.yml/badge.svg)](https://github.com/longbridgeapp/html-pipeline/actions/workflows/go.yml)
+
 This is go version of [html-pipeline](https://github.com/jch/html-pipeline)
 
 ## Other versions
