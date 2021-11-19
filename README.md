@@ -124,7 +124,7 @@ https://play.golang.org/p/vxKZU9jJi3u
 - [MentionFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/mention_filter.go) - Match Mention or HashTag like Twitter.
 - [HTMLEscapeFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/html_escape_filter.go) - HTML Escape for plain text.
 - [SimpleFormatFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
-- [AutoCorrectFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/auto_correct_filter.go) - Use [go-auto-correct](https://github.com/huacnlee/go-auto-correct) to automatically add spaces between Chinese and English words.
+- [AutoCorrectFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/auto_correct_filter.go) - Use [AutoCorrect](https://github.com/longbridgeapp/autocorrect) to automatically add spaces between CJK and English words.
 - [ImageProxyFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_proxy_filter.go) - _DEPRECATED_ A filter can match all `img` to replace src as proxy url with [imageproxy](https://github.com/longbridgeapp/imageproxy).
 - [ImageURLFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_url_filter.go) - A filter can match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
 - [ExternalLinkFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/external_link_filter.go) a filter to match external links to add `rel="nofollow"`, `target="_blank"`.

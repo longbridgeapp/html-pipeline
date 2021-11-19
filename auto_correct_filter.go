@@ -2,7 +2,7 @@ package pipeline
 
 import (
 	"github.com/PuerkitoBio/goquery"
-	autocorrect "github.com/huacnlee/go-auto-correct"
+	autocorrect "github.com/longbridgeapp/autocorrect"
 )
 
 // AutoCorrectFilter Automatically add whitespace between CJK and

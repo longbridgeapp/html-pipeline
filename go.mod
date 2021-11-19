@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
-	github.com/huacnlee/go-auto-correct v1.0.1
+	github.com/longbridgeapp/autocorrect v1.1.0
 	github.com/microcosm-cc/bluemonday v1.0.16
 	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
