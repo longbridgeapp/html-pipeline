@@ -41,7 +41,7 @@ func ExampleMarkdownFilter() {
 | ---- | --- |
 | Jason | Chengdu |
 
-This is [html-pipeline](https://github.com/huacnlee/html-pipeline) Markdown filter.`
+This is [html-pipeline](https://github.com/longbridgeapp/html-pipeline) Markdown filter.`
 
 	out, _ := pipe.Call(raw)
 	fmt.Println(out)
@@ -66,5 +66,5 @@ This is [html-pipeline](https://github.com/huacnlee/html-pipeline) Markdown filt
 	// </tr>
 	// </tbody>
 	// </table>
-	// <p>This is <a href="https://github.com/huacnlee/html-pipeline" rel="nofollow">html-pipeline</a> Markdown filter.</p>
+	// <p>This is <a href="https://github.com/longbridgeapp/html-pipeline" rel="nofollow">html-pipeline</a> Markdown filter.</p>
 }

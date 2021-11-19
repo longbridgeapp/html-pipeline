@@ -1,12 +1,12 @@
 ## 0.6.0
 
-- Add [ImageURLFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_url_filter.go) match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
-- Add [ExternalLinkFilter](https://github.com/huacnlee/html-pipeline/blob/master/external_link_filter.go) to match external links to add `rel="nofollow"`, `target="_blank"`.
+- Add [ImageURLFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_url_filter.go) match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
+- Add [ExternalLinkFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/external_link_filter.go) to match external links to add `rel="nofollow"`, `target="_blank"`.
 - Deprecated **ImageProxyFilter**, please use ImageURLFilter.
 
 ## 0.5.0
 
-- Add [ImageProxyFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_proxy_filter.go) for match and replace `img` src.
+- Add [ImageProxyFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_proxy_filter.go) for match and replace `img` src.
 
 ## 0.4.2
 

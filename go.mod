@@ -1,4 +1,4 @@
-module github.com/huacnlee/html-pipeline
+module github.com/longbridgeapp/html-pipeline
 
 go 1.16
 

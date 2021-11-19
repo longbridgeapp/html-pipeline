@@ -16,7 +16,7 @@ import (
 	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
-	pipeline "github.com/huacnlee/html-pipeline"
+	pipeline "github.com/longbridgeapp/html-pipeline"
 )
 
 // ImageMaxWidthFilter a custom filter example
@@ -89,7 +89,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/huacnlee/html-pipeline"
+	"github.com/longbridgeapp/html-pipeline"
 )
 
 func main() {
@@ -119,15 +119,15 @@ https://play.golang.org/p/vxKZU9jJi3u
 
 ## Built-in filters
 
-- [SanitizationFilter](https://github.com/huacnlee/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
-- [MarkdownFilter](https://github.com/huacnlee/html-pipeline/blob/master/markdown_filter.go) - Use [blackfriday](https://github.com/russross/blackfriday) to covert Markdown to HTML.
-- [MentionFilter](https://github.com/huacnlee/html-pipeline/blob/master/mention_filter.go) - Match Mention or HashTag like Twitter.
-- [HTMLEscapeFilter](https://github.com/huacnlee/html-pipeline/blob/master/html_escape_filter.go) - HTML Escape for plain text.
-- [SimpleFormatFilter](https://github.com/huacnlee/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
-- [AutoCorrectFilter](https://github.com/huacnlee/html-pipeline/blob/master/auto_correct_filter.go) - Use [go-auto-correct](https://github.com/huacnlee/go-auto-correct) to automatically add spaces between Chinese and English words.
-- [ImageProxyFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_proxy_filter.go) - _DEPRECATED_ A filter can match all `img` to replace src as proxy url with [imageproxy](https://github.com/willnorris/imageproxy).
-- [ImageURLFilter](https://github.com/huacnlee/html-pipeline/blob/master/image_url_filter.go) - A filter can match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
-- [ExternalLinkFilter](https://github.com/huacnlee/html-pipeline/blob/master/external_link_filter.go) a filter to match external links to add `rel="nofollow"`, `target="_blank"`.
+- [SanitizationFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
+- [MarkdownFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/markdown_filter.go) - Use [blackfriday](https://github.com/russross/blackfriday) to covert Markdown to HTML.
+- [MentionFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/mention_filter.go) - Match Mention or HashTag like Twitter.
+- [HTMLEscapeFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/html_escape_filter.go) - HTML Escape for plain text.
+- [SimpleFormatFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
+- [AutoCorrectFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/auto_correct_filter.go) - Use [go-auto-correct](https://github.com/huacnlee/go-auto-correct) to automatically add spaces between Chinese and English words.
+- [ImageProxyFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_proxy_filter.go) - _DEPRECATED_ A filter can match all `img` to replace src as proxy url with [imageproxy](https://github.com/willnorris/imageproxy).
+- [ImageURLFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/image_url_filter.go) - A filter can match `img` to replace with rules like ([imageproxy](https://github.com/willnorris/imageproxy), Ban URL, Thumb version ...).
+- [ExternalLinkFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/external_link_filter.go) a filter to match external links to add `rel="nofollow"`, `target="_blank"`.
 
 ## License
 

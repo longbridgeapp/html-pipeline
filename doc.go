@@ -6,7 +6,7 @@ This is go version of [html-pipeline](https://github.com/jch/html-pipeline)
 ## Other versions
 
 - [html-pipeline](https://github.com/jch/html-pipeline) - Ruby
-- [html-pipeline.cr](https://github.com/huacnlee/html-pipeline.cr) - Crystal
+- [html-pipeline.cr](https://github.com/longbridgeapp/html-pipeline.cr) - Crystal
 
 ## Usage
 
@@ -17,7 +17,7 @@ import (
 	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
-	pipeline "github.com/huacnlee/html-pipeline"
+	pipeline "github.com/longbridgeapp/html-pipeline"
 )
 
 // ImageMaxWidthFilter a custom filter example
@@ -64,12 +64,12 @@ https://play.golang.org/p/zB0T7KczdB4
 
 ## Built-in filters
 
-- [SanitizationFilter](https://github.com/huacnlee/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
-- [MarkdownFilter](https://github.com/huacnlee/html-pipeline/blob/master/markdown_filter.go) - Use [blackfriday](https://github.com/russross/blackfriday) to covert Markdown to HTML.
-- [MentionFilter](https://github.com/huacnlee/html-pipeline/blob/master/mention_filter.go) - Match Mention or HashTag like Twitter.
-- [HTMLEscapeFilter](https://github.com/huacnlee/html-pipeline/blob/master/html_escape_filter.go) - HTML Escape for plain text.
-- [SimpleFormatFilter](https://github.com/huacnlee/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
-- [AutoCorrectFilter](https://github.com/huacnlee/html-pipeline/blob/master/auto_correct_filter.go) - Use [go-auto-correct](https://github.com/huacnlee/go-auto-correct) to automatically add spaces between Chinese and English words.
+- [SanitizationFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/sanitization_filter.go) - Use [bluemonday](github.com/microcosm-cc/bluemonday) default UGCPolicy to sanitize html
+- [MarkdownFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/markdown_filter.go) - Use [blackfriday](https://github.com/russross/blackfriday) to covert Markdown to HTML.
+- [MentionFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/mention_filter.go) - Match Mention or HashTag like Twitter.
+- [HTMLEscapeFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/html_escape_filter.go) - HTML Escape for plain text.
+- [SimpleFormatFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/simple_format_filter.go) - Format plain text for covert `\n\n` into paragraph, like Rails [simple_format](https://api.rubyonrails.org/classes/ActionView/Helpers/TextHelper.html#method-i-simple_format).
+- [AutoCorrectFilter](https://github.com/longbridgeapp/html-pipeline/blob/master/auto_correct_filter.go) - Use [go-auto-correct](https://github.com/huacnlee/go-auto-correct) to automatically add spaces between Chinese and English words.
 */
 
 package pipeline
